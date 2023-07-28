@@ -1,0 +1,160 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Grammar
+
+Rule 0     S' -> start
+Rule 1     start -> NAME SCOPE_BEGIN service SCOPE_END
+Rule 2     service -> service api
+Rule 3     service -> api
+Rule 4     api -> NAME annotations
+Rule 5     annotations -> API_ANNOTATION api_summary
+Rule 6     annotations -> api_summary
+Rule 7     api_summary -> API_SUMMARY
+Rule 8     api_summary -> <empty>
+
+Terminals, with rules where they appear
+
+API_ANNOTATION       : 5
+API_SUMMARY          : 7
+NAME                 : 1 4
+SCOPE_BEGIN          : 1
+SCOPE_END            : 1
+error                : 
+
+Nonterminals, with rules where they appear
+
+annotations          : 4
+api                  : 2 3
+api_summary          : 5 6
+service              : 1 2
+start                : 0
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . start
+    (1) start -> . NAME SCOPE_BEGIN service SCOPE_END
+
+    NAME            shift and go to state 2
+
+    start                          shift and go to state 1
+
+state 1
+
+    (0) S' -> start .
+
+
+
+state 2
+
+    (1) start -> NAME . SCOPE_BEGIN service SCOPE_END
+
+    SCOPE_BEGIN     shift and go to state 3
+
+
+state 3
+
+    (1) start -> NAME SCOPE_BEGIN . service SCOPE_END
+    (2) service -> . service api
+    (3) service -> . api
+    (4) api -> . NAME annotations
+
+    NAME            shift and go to state 4
+
+    service                        shift and go to state 5
+    api                            shift and go to state 6
+
+state 4
+
+    (4) api -> NAME . annotations
+    (5) annotations -> . API_ANNOTATION api_summary
+    (6) annotations -> . api_summary
+    (7) api_summary -> . API_SUMMARY
+    (8) api_summary -> .
+
+    API_ANNOTATION  shift and go to state 8
+    API_SUMMARY     shift and go to state 10
+    SCOPE_END       reduce using rule 8 (api_summary -> .)
+    NAME            reduce using rule 8 (api_summary -> .)
+
+    annotations                    shift and go to state 7
+    api_summary                    shift and go to state 9
+
+state 5
+
+    (1) start -> NAME SCOPE_BEGIN service . SCOPE_END
+    (2) service -> service . api
+    (4) api -> . NAME annotations
+
+    SCOPE_END       shift and go to state 11
+    NAME            shift and go to state 4
+
+    api                            shift and go to state 12
+
+state 6
+
+    (3) service -> api .
+
+    SCOPE_END       reduce using rule 3 (service -> api .)
+    NAME            reduce using rule 3 (service -> api .)
+
+
+state 7
+
+    (4) api -> NAME annotations .
+
+    SCOPE_END       reduce using rule 4 (api -> NAME annotations .)
+    NAME            reduce using rule 4 (api -> NAME annotations .)
+
+
+state 8
+
+    (5) annotations -> API_ANNOTATION . api_summary
+    (7) api_summary -> . API_SUMMARY
+    (8) api_summary -> .
+
+    API_SUMMARY     shift and go to state 10
+    SCOPE_END       reduce using rule 8 (api_summary -> .)
+    NAME            reduce using rule 8 (api_summary -> .)
+
+    api_summary                    shift and go to state 13
+
+state 9
+
+    (6) annotations -> api_summary .
+
+    SCOPE_END       reduce using rule 6 (annotations -> api_summary .)
+    NAME            reduce using rule 6 (annotations -> api_summary .)
+
+
+state 10
+
+    (7) api_summary -> API_SUMMARY .
+
+    SCOPE_END       reduce using rule 7 (api_summary -> API_SUMMARY .)
+    NAME            reduce using rule 7 (api_summary -> API_SUMMARY .)
+
+
+state 11
+
+    (1) start -> NAME SCOPE_BEGIN service SCOPE_END .
+
+    $end            reduce using rule 1 (start -> NAME SCOPE_BEGIN service SCOPE_END .)
+
+
+state 12
+
+    (2) service -> service api .
+
+    SCOPE_END       reduce using rule 2 (service -> service api .)
+    NAME            reduce using rule 2 (service -> service api .)
+
+
+state 13
+
+    (5) annotations -> API_ANNOTATION api_summary .
+
+    SCOPE_END       reduce using rule 5 (annotations -> API_ANNOTATION api_summary .)
+    NAME            reduce using rule 5 (annotations -> API_ANNOTATION api_summary .)
+

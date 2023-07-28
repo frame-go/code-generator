@@ -1,0 +1,703 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Grammar
+
+Rule 0     S' -> dbs
+Rule 1     dbs -> table
+Rule 2     dbs -> db newlines dbs
+Rule 3     dbs -> table newlines dbs
+Rule 4     db -> AT IDENTIFIER NEWLINE
+Rule 5     db -> AT IDENTIFIER R_BRACKET_BEGIN attributes R_BRACKET_END NEWLINE
+Rule 6     table -> IDENTIFIER NEWLINE columns
+Rule 7     table -> IDENTIFIER R_BRACKET_BEGIN attributes R_BRACKET_END NEWLINE columns
+Rule 8     columns -> column NEWLINE
+Rule 9     columns -> column NEWLINE indexes
+Rule 10    columns -> column NEWLINE columns
+Rule 11    column -> column_type IDENTIFIER
+Rule 12    column -> column_type IDENTIFIER R_BRACKET_BEGIN attributes R_BRACKET_END
+Rule 13    attributes -> attribute
+Rule 14    attributes -> attribute COMMA attributes
+Rule 15    attribute -> IDENTIFIER
+Rule 16    attribute -> IDENTIFIER EQUAL IDENTIFIER
+Rule 17    attribute -> IDENTIFIER EQUAL STRING
+Rule 18    column_type -> DATA_TYPE
+Rule 19    column_type -> DATA_TYPE S_BRACKET_BEGIN lengths S_BRACKET_END
+Rule 20    lengths -> IDENTIFIER
+Rule 21    lengths -> IDENTIFIER COMMA lengths
+Rule 22    indexes -> index NEWLINE
+Rule 23    indexes -> index NEWLINE indexes
+Rule 24    index -> index_type R_BRACKET_BEGIN fields R_BRACKET_END
+Rule 25    index -> index_type IDENTIFIER R_BRACKET_BEGIN fields R_BRACKET_END
+Rule 26    index_type -> INDEX_TYPE
+Rule 27    index_type -> INDEX_TYPE INDEX_TYPE
+Rule 28    fields -> IDENTIFIER
+Rule 29    fields -> IDENTIFIER COMMA fields
+Rule 30    newlines -> NEWLINE
+Rule 31    newlines -> NEWLINE newlines
+
+Terminals, with rules where they appear
+
+AT                   : 4 5
+COMMA                : 14 21 29
+DATA_TYPE            : 18 19
+EQUAL                : 16 17
+IDENTIFIER           : 4 5 6 7 11 12 15 16 16 17 20 21 25 28 29
+INDEX_TYPE           : 26 27 27
+NEWLINE              : 4 5 6 7 8 9 10 22 23 30 31
+R_BRACKET_BEGIN      : 5 7 12 24 25
+R_BRACKET_END        : 5 7 12 24 25
+STRING               : 17
+S_BRACKET_BEGIN      : 19
+S_BRACKET_END        : 19
+error                : 
+
+Nonterminals, with rules where they appear
+
+attribute            : 13 14
+attributes           : 5 7 12 14
+column               : 8 9 10
+column_type          : 11 12
+columns              : 6 7 10
+db                   : 2
+dbs                  : 2 3 0
+fields               : 24 25 29
+index                : 22 23
+index_type           : 24 25
+indexes              : 9 23
+lengths              : 19 21
+newlines             : 2 3 31
+table                : 1 3
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . dbs
+    (1) dbs -> . table
+    (2) dbs -> . db newlines dbs
+    (3) dbs -> . table newlines dbs
+    (6) table -> . IDENTIFIER NEWLINE columns
+    (7) table -> . IDENTIFIER R_BRACKET_BEGIN attributes R_BRACKET_END NEWLINE columns
+    (4) db -> . AT IDENTIFIER NEWLINE
+    (5) db -> . AT IDENTIFIER R_BRACKET_BEGIN attributes R_BRACKET_END NEWLINE
+
+    IDENTIFIER      shift and go to state 4
+    AT              shift and go to state 5
+
+    dbs                            shift and go to state 1
+    table                          shift and go to state 2
+    db                             shift and go to state 3
+
+state 1
+
+    (0) S' -> dbs .
+
+
+
+state 2
+
+    (1) dbs -> table .
+    (3) dbs -> table . newlines dbs
+    (30) newlines -> . NEWLINE
+    (31) newlines -> . NEWLINE newlines
+
+    $end            reduce using rule 1 (dbs -> table .)
+    NEWLINE         shift and go to state 7
+
+    newlines                       shift and go to state 6
+
+state 3
+
+    (2) dbs -> db . newlines dbs
+    (30) newlines -> . NEWLINE
+    (31) newlines -> . NEWLINE newlines
+
+    NEWLINE         shift and go to state 7
+
+    newlines                       shift and go to state 8
+
+state 4
+
+    (6) table -> IDENTIFIER . NEWLINE columns
+    (7) table -> IDENTIFIER . R_BRACKET_BEGIN attributes R_BRACKET_END NEWLINE columns
+
+    NEWLINE         shift and go to state 9
+    R_BRACKET_BEGIN shift and go to state 10
+
+
+state 5
+
+    (4) db -> AT . IDENTIFIER NEWLINE
+    (5) db -> AT . IDENTIFIER R_BRACKET_BEGIN attributes R_BRACKET_END NEWLINE
+
+    IDENTIFIER      shift and go to state 11
+
+
+state 6
+
+    (3) dbs -> table newlines . dbs
+    (1) dbs -> . table
+    (2) dbs -> . db newlines dbs
+    (3) dbs -> . table newlines dbs
+    (6) table -> . IDENTIFIER NEWLINE columns
+    (7) table -> . IDENTIFIER R_BRACKET_BEGIN attributes R_BRACKET_END NEWLINE columns
+    (4) db -> . AT IDENTIFIER NEWLINE
+    (5) db -> . AT IDENTIFIER R_BRACKET_BEGIN attributes R_BRACKET_END NEWLINE
+
+    IDENTIFIER      shift and go to state 4
+    AT              shift and go to state 5
+
+    table                          shift and go to state 2
+    dbs                            shift and go to state 12
+    db                             shift and go to state 3
+
+state 7
+
+    (30) newlines -> NEWLINE .
+    (31) newlines -> NEWLINE . newlines
+    (30) newlines -> . NEWLINE
+    (31) newlines -> . NEWLINE newlines
+
+    IDENTIFIER      reduce using rule 30 (newlines -> NEWLINE .)
+    AT              reduce using rule 30 (newlines -> NEWLINE .)
+    NEWLINE         shift and go to state 7
+
+    newlines                       shift and go to state 13
+
+state 8
+
+    (2) dbs -> db newlines . dbs
+    (1) dbs -> . table
+    (2) dbs -> . db newlines dbs
+    (3) dbs -> . table newlines dbs
+    (6) table -> . IDENTIFIER NEWLINE columns
+    (7) table -> . IDENTIFIER R_BRACKET_BEGIN attributes R_BRACKET_END NEWLINE columns
+    (4) db -> . AT IDENTIFIER NEWLINE
+    (5) db -> . AT IDENTIFIER R_BRACKET_BEGIN attributes R_BRACKET_END NEWLINE
+
+    IDENTIFIER      shift and go to state 4
+    AT              shift and go to state 5
+
+    db                             shift and go to state 3
+    dbs                            shift and go to state 14
+    table                          shift and go to state 2
+
+state 9
+
+    (6) table -> IDENTIFIER NEWLINE . columns
+    (8) columns -> . column NEWLINE
+    (9) columns -> . column NEWLINE indexes
+    (10) columns -> . column NEWLINE columns
+    (11) column -> . column_type IDENTIFIER
+    (12) column -> . column_type IDENTIFIER R_BRACKET_BEGIN attributes R_BRACKET_END
+    (18) column_type -> . DATA_TYPE
+    (19) column_type -> . DATA_TYPE S_BRACKET_BEGIN lengths S_BRACKET_END
+
+    DATA_TYPE       shift and go to state 18
+
+    columns                        shift and go to state 15
+    column                         shift and go to state 16
+    column_type                    shift and go to state 17
+
+state 10
+
+    (7) table -> IDENTIFIER R_BRACKET_BEGIN . attributes R_BRACKET_END NEWLINE columns
+    (13) attributes -> . attribute
+    (14) attributes -> . attribute COMMA attributes
+    (15) attribute -> . IDENTIFIER
+    (16) attribute -> . IDENTIFIER EQUAL IDENTIFIER
+    (17) attribute -> . IDENTIFIER EQUAL STRING
+
+    IDENTIFIER      shift and go to state 19
+
+    attributes                     shift and go to state 20
+    attribute                      shift and go to state 21
+
+state 11
+
+    (4) db -> AT IDENTIFIER . NEWLINE
+    (5) db -> AT IDENTIFIER . R_BRACKET_BEGIN attributes R_BRACKET_END NEWLINE
+
+    NEWLINE         shift and go to state 22
+    R_BRACKET_BEGIN shift and go to state 23
+
+
+state 12
+
+    (3) dbs -> table newlines dbs .
+
+    $end            reduce using rule 3 (dbs -> table newlines dbs .)
+
+
+state 13
+
+    (31) newlines -> NEWLINE newlines .
+
+    IDENTIFIER      reduce using rule 31 (newlines -> NEWLINE newlines .)
+    AT              reduce using rule 31 (newlines -> NEWLINE newlines .)
+
+
+state 14
+
+    (2) dbs -> db newlines dbs .
+
+    $end            reduce using rule 2 (dbs -> db newlines dbs .)
+
+
+state 15
+
+    (6) table -> IDENTIFIER NEWLINE columns .
+
+    NEWLINE         reduce using rule 6 (table -> IDENTIFIER NEWLINE columns .)
+    $end            reduce using rule 6 (table -> IDENTIFIER NEWLINE columns .)
+
+
+state 16
+
+    (8) columns -> column . NEWLINE
+    (9) columns -> column . NEWLINE indexes
+    (10) columns -> column . NEWLINE columns
+
+    NEWLINE         shift and go to state 24
+
+
+state 17
+
+    (11) column -> column_type . IDENTIFIER
+    (12) column -> column_type . IDENTIFIER R_BRACKET_BEGIN attributes R_BRACKET_END
+
+    IDENTIFIER      shift and go to state 25
+
+
+state 18
+
+    (18) column_type -> DATA_TYPE .
+    (19) column_type -> DATA_TYPE . S_BRACKET_BEGIN lengths S_BRACKET_END
+
+    IDENTIFIER      reduce using rule 18 (column_type -> DATA_TYPE .)
+    S_BRACKET_BEGIN shift and go to state 26
+
+
+state 19
+
+    (15) attribute -> IDENTIFIER .
+    (16) attribute -> IDENTIFIER . EQUAL IDENTIFIER
+    (17) attribute -> IDENTIFIER . EQUAL STRING
+
+    COMMA           reduce using rule 15 (attribute -> IDENTIFIER .)
+    R_BRACKET_END   reduce using rule 15 (attribute -> IDENTIFIER .)
+    EQUAL           shift and go to state 27
+
+
+state 20
+
+    (7) table -> IDENTIFIER R_BRACKET_BEGIN attributes . R_BRACKET_END NEWLINE columns
+
+    R_BRACKET_END   shift and go to state 28
+
+
+state 21
+
+    (13) attributes -> attribute .
+    (14) attributes -> attribute . COMMA attributes
+
+    R_BRACKET_END   reduce using rule 13 (attributes -> attribute .)
+    COMMA           shift and go to state 29
+
+
+state 22
+
+    (4) db -> AT IDENTIFIER NEWLINE .
+
+    NEWLINE         reduce using rule 4 (db -> AT IDENTIFIER NEWLINE .)
+
+
+state 23
+
+    (5) db -> AT IDENTIFIER R_BRACKET_BEGIN . attributes R_BRACKET_END NEWLINE
+    (13) attributes -> . attribute
+    (14) attributes -> . attribute COMMA attributes
+    (15) attribute -> . IDENTIFIER
+    (16) attribute -> . IDENTIFIER EQUAL IDENTIFIER
+    (17) attribute -> . IDENTIFIER EQUAL STRING
+
+    IDENTIFIER      shift and go to state 19
+
+    attributes                     shift and go to state 30
+    attribute                      shift and go to state 21
+
+state 24
+
+    (8) columns -> column NEWLINE .
+    (9) columns -> column NEWLINE . indexes
+    (10) columns -> column NEWLINE . columns
+    (22) indexes -> . index NEWLINE
+    (23) indexes -> . index NEWLINE indexes
+    (8) columns -> . column NEWLINE
+    (9) columns -> . column NEWLINE indexes
+    (10) columns -> . column NEWLINE columns
+    (24) index -> . index_type R_BRACKET_BEGIN fields R_BRACKET_END
+    (25) index -> . index_type IDENTIFIER R_BRACKET_BEGIN fields R_BRACKET_END
+    (11) column -> . column_type IDENTIFIER
+    (12) column -> . column_type IDENTIFIER R_BRACKET_BEGIN attributes R_BRACKET_END
+    (26) index_type -> . INDEX_TYPE
+    (27) index_type -> . INDEX_TYPE INDEX_TYPE
+    (18) column_type -> . DATA_TYPE
+    (19) column_type -> . DATA_TYPE S_BRACKET_BEGIN lengths S_BRACKET_END
+
+    NEWLINE         reduce using rule 8 (columns -> column NEWLINE .)
+    $end            reduce using rule 8 (columns -> column NEWLINE .)
+    INDEX_TYPE      shift and go to state 35
+    DATA_TYPE       shift and go to state 18
+
+    column                         shift and go to state 16
+    indexes                        shift and go to state 31
+    columns                        shift and go to state 32
+    index                          shift and go to state 33
+    index_type                     shift and go to state 34
+    column_type                    shift and go to state 17
+
+state 25
+
+    (11) column -> column_type IDENTIFIER .
+    (12) column -> column_type IDENTIFIER . R_BRACKET_BEGIN attributes R_BRACKET_END
+
+    NEWLINE         reduce using rule 11 (column -> column_type IDENTIFIER .)
+    R_BRACKET_BEGIN shift and go to state 36
+
+
+state 26
+
+    (19) column_type -> DATA_TYPE S_BRACKET_BEGIN . lengths S_BRACKET_END
+    (20) lengths -> . IDENTIFIER
+    (21) lengths -> . IDENTIFIER COMMA lengths
+
+    IDENTIFIER      shift and go to state 38
+
+    lengths                        shift and go to state 37
+
+state 27
+
+    (16) attribute -> IDENTIFIER EQUAL . IDENTIFIER
+    (17) attribute -> IDENTIFIER EQUAL . STRING
+
+    IDENTIFIER      shift and go to state 39
+    STRING          shift and go to state 40
+
+
+state 28
+
+    (7) table -> IDENTIFIER R_BRACKET_BEGIN attributes R_BRACKET_END . NEWLINE columns
+
+    NEWLINE         shift and go to state 41
+
+
+state 29
+
+    (14) attributes -> attribute COMMA . attributes
+    (13) attributes -> . attribute
+    (14) attributes -> . attribute COMMA attributes
+    (15) attribute -> . IDENTIFIER
+    (16) attribute -> . IDENTIFIER EQUAL IDENTIFIER
+    (17) attribute -> . IDENTIFIER EQUAL STRING
+
+    IDENTIFIER      shift and go to state 19
+
+    attribute                      shift and go to state 21
+    attributes                     shift and go to state 42
+
+state 30
+
+    (5) db -> AT IDENTIFIER R_BRACKET_BEGIN attributes . R_BRACKET_END NEWLINE
+
+    R_BRACKET_END   shift and go to state 43
+
+
+state 31
+
+    (9) columns -> column NEWLINE indexes .
+
+    NEWLINE         reduce using rule 9 (columns -> column NEWLINE indexes .)
+    $end            reduce using rule 9 (columns -> column NEWLINE indexes .)
+
+
+state 32
+
+    (10) columns -> column NEWLINE columns .
+
+    NEWLINE         reduce using rule 10 (columns -> column NEWLINE columns .)
+    $end            reduce using rule 10 (columns -> column NEWLINE columns .)
+
+
+state 33
+
+    (22) indexes -> index . NEWLINE
+    (23) indexes -> index . NEWLINE indexes
+
+    NEWLINE         shift and go to state 44
+
+
+state 34
+
+    (24) index -> index_type . R_BRACKET_BEGIN fields R_BRACKET_END
+    (25) index -> index_type . IDENTIFIER R_BRACKET_BEGIN fields R_BRACKET_END
+
+    R_BRACKET_BEGIN shift and go to state 45
+    IDENTIFIER      shift and go to state 46
+
+
+state 35
+
+    (26) index_type -> INDEX_TYPE .
+    (27) index_type -> INDEX_TYPE . INDEX_TYPE
+
+    R_BRACKET_BEGIN reduce using rule 26 (index_type -> INDEX_TYPE .)
+    IDENTIFIER      reduce using rule 26 (index_type -> INDEX_TYPE .)
+    INDEX_TYPE      shift and go to state 47
+
+
+state 36
+
+    (12) column -> column_type IDENTIFIER R_BRACKET_BEGIN . attributes R_BRACKET_END
+    (13) attributes -> . attribute
+    (14) attributes -> . attribute COMMA attributes
+    (15) attribute -> . IDENTIFIER
+    (16) attribute -> . IDENTIFIER EQUAL IDENTIFIER
+    (17) attribute -> . IDENTIFIER EQUAL STRING
+
+    IDENTIFIER      shift and go to state 19
+
+    attributes                     shift and go to state 48
+    attribute                      shift and go to state 21
+
+state 37
+
+    (19) column_type -> DATA_TYPE S_BRACKET_BEGIN lengths . S_BRACKET_END
+
+    S_BRACKET_END   shift and go to state 49
+
+
+state 38
+
+    (20) lengths -> IDENTIFIER .
+    (21) lengths -> IDENTIFIER . COMMA lengths
+
+    S_BRACKET_END   reduce using rule 20 (lengths -> IDENTIFIER .)
+    COMMA           shift and go to state 50
+
+
+state 39
+
+    (16) attribute -> IDENTIFIER EQUAL IDENTIFIER .
+
+    COMMA           reduce using rule 16 (attribute -> IDENTIFIER EQUAL IDENTIFIER .)
+    R_BRACKET_END   reduce using rule 16 (attribute -> IDENTIFIER EQUAL IDENTIFIER .)
+
+
+state 40
+
+    (17) attribute -> IDENTIFIER EQUAL STRING .
+
+    COMMA           reduce using rule 17 (attribute -> IDENTIFIER EQUAL STRING .)
+    R_BRACKET_END   reduce using rule 17 (attribute -> IDENTIFIER EQUAL STRING .)
+
+
+state 41
+
+    (7) table -> IDENTIFIER R_BRACKET_BEGIN attributes R_BRACKET_END NEWLINE . columns
+    (8) columns -> . column NEWLINE
+    (9) columns -> . column NEWLINE indexes
+    (10) columns -> . column NEWLINE columns
+    (11) column -> . column_type IDENTIFIER
+    (12) column -> . column_type IDENTIFIER R_BRACKET_BEGIN attributes R_BRACKET_END
+    (18) column_type -> . DATA_TYPE
+    (19) column_type -> . DATA_TYPE S_BRACKET_BEGIN lengths S_BRACKET_END
+
+    DATA_TYPE       shift and go to state 18
+
+    columns                        shift and go to state 51
+    column                         shift and go to state 16
+    column_type                    shift and go to state 17
+
+state 42
+
+    (14) attributes -> attribute COMMA attributes .
+
+    R_BRACKET_END   reduce using rule 14 (attributes -> attribute COMMA attributes .)
+
+
+state 43
+
+    (5) db -> AT IDENTIFIER R_BRACKET_BEGIN attributes R_BRACKET_END . NEWLINE
+
+    NEWLINE         shift and go to state 52
+
+
+state 44
+
+    (22) indexes -> index NEWLINE .
+    (23) indexes -> index NEWLINE . indexes
+    (22) indexes -> . index NEWLINE
+    (23) indexes -> . index NEWLINE indexes
+    (24) index -> . index_type R_BRACKET_BEGIN fields R_BRACKET_END
+    (25) index -> . index_type IDENTIFIER R_BRACKET_BEGIN fields R_BRACKET_END
+    (26) index_type -> . INDEX_TYPE
+    (27) index_type -> . INDEX_TYPE INDEX_TYPE
+
+    NEWLINE         reduce using rule 22 (indexes -> index NEWLINE .)
+    $end            reduce using rule 22 (indexes -> index NEWLINE .)
+    INDEX_TYPE      shift and go to state 35
+
+    index                          shift and go to state 33
+    indexes                        shift and go to state 53
+    index_type                     shift and go to state 34
+
+state 45
+
+    (24) index -> index_type R_BRACKET_BEGIN . fields R_BRACKET_END
+    (28) fields -> . IDENTIFIER
+    (29) fields -> . IDENTIFIER COMMA fields
+
+    IDENTIFIER      shift and go to state 55
+
+    fields                         shift and go to state 54
+
+state 46
+
+    (25) index -> index_type IDENTIFIER . R_BRACKET_BEGIN fields R_BRACKET_END
+
+    R_BRACKET_BEGIN shift and go to state 56
+
+
+state 47
+
+    (27) index_type -> INDEX_TYPE INDEX_TYPE .
+
+    R_BRACKET_BEGIN reduce using rule 27 (index_type -> INDEX_TYPE INDEX_TYPE .)
+    IDENTIFIER      reduce using rule 27 (index_type -> INDEX_TYPE INDEX_TYPE .)
+
+
+state 48
+
+    (12) column -> column_type IDENTIFIER R_BRACKET_BEGIN attributes . R_BRACKET_END
+
+    R_BRACKET_END   shift and go to state 57
+
+
+state 49
+
+    (19) column_type -> DATA_TYPE S_BRACKET_BEGIN lengths S_BRACKET_END .
+
+    IDENTIFIER      reduce using rule 19 (column_type -> DATA_TYPE S_BRACKET_BEGIN lengths S_BRACKET_END .)
+
+
+state 50
+
+    (21) lengths -> IDENTIFIER COMMA . lengths
+    (20) lengths -> . IDENTIFIER
+    (21) lengths -> . IDENTIFIER COMMA lengths
+
+    IDENTIFIER      shift and go to state 38
+
+    lengths                        shift and go to state 58
+
+state 51
+
+    (7) table -> IDENTIFIER R_BRACKET_BEGIN attributes R_BRACKET_END NEWLINE columns .
+
+    NEWLINE         reduce using rule 7 (table -> IDENTIFIER R_BRACKET_BEGIN attributes R_BRACKET_END NEWLINE columns .)
+    $end            reduce using rule 7 (table -> IDENTIFIER R_BRACKET_BEGIN attributes R_BRACKET_END NEWLINE columns .)
+
+
+state 52
+
+    (5) db -> AT IDENTIFIER R_BRACKET_BEGIN attributes R_BRACKET_END NEWLINE .
+
+    NEWLINE         reduce using rule 5 (db -> AT IDENTIFIER R_BRACKET_BEGIN attributes R_BRACKET_END NEWLINE .)
+
+
+state 53
+
+    (23) indexes -> index NEWLINE indexes .
+
+    NEWLINE         reduce using rule 23 (indexes -> index NEWLINE indexes .)
+    $end            reduce using rule 23 (indexes -> index NEWLINE indexes .)
+
+
+state 54
+
+    (24) index -> index_type R_BRACKET_BEGIN fields . R_BRACKET_END
+
+    R_BRACKET_END   shift and go to state 59
+
+
+state 55
+
+    (28) fields -> IDENTIFIER .
+    (29) fields -> IDENTIFIER . COMMA fields
+
+    R_BRACKET_END   reduce using rule 28 (fields -> IDENTIFIER .)
+    COMMA           shift and go to state 60
+
+
+state 56
+
+    (25) index -> index_type IDENTIFIER R_BRACKET_BEGIN . fields R_BRACKET_END
+    (28) fields -> . IDENTIFIER
+    (29) fields -> . IDENTIFIER COMMA fields
+
+    IDENTIFIER      shift and go to state 55
+
+    fields                         shift and go to state 61
+
+state 57
+
+    (12) column -> column_type IDENTIFIER R_BRACKET_BEGIN attributes R_BRACKET_END .
+
+    NEWLINE         reduce using rule 12 (column -> column_type IDENTIFIER R_BRACKET_BEGIN attributes R_BRACKET_END .)
+
+
+state 58
+
+    (21) lengths -> IDENTIFIER COMMA lengths .
+
+    S_BRACKET_END   reduce using rule 21 (lengths -> IDENTIFIER COMMA lengths .)
+
+
+state 59
+
+    (24) index -> index_type R_BRACKET_BEGIN fields R_BRACKET_END .
+
+    NEWLINE         reduce using rule 24 (index -> index_type R_BRACKET_BEGIN fields R_BRACKET_END .)
+
+
+state 60
+
+    (29) fields -> IDENTIFIER COMMA . fields
+    (28) fields -> . IDENTIFIER
+    (29) fields -> . IDENTIFIER COMMA fields
+
+    IDENTIFIER      shift and go to state 55
+
+    fields                         shift and go to state 62
+
+state 61
+
+    (25) index -> index_type IDENTIFIER R_BRACKET_BEGIN fields . R_BRACKET_END
+
+    R_BRACKET_END   shift and go to state 63
+
+
+state 62
+
+    (29) fields -> IDENTIFIER COMMA fields .
+
+    R_BRACKET_END   reduce using rule 29 (fields -> IDENTIFIER COMMA fields .)
+
+
+state 63
+
+    (25) index -> index_type IDENTIFIER R_BRACKET_BEGIN fields R_BRACKET_END .
+
+    NEWLINE         reduce using rule 25 (index -> index_type IDENTIFIER R_BRACKET_BEGIN fields R_BRACKET_END .)
+

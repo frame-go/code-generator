@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Code Generator</title>
+<style type="text/css">
+body {
+    font-family: "Sofia", sans-serif;
+}
+h1 {
+    margin: 10px;
+}
+#code {
+    width: 600px;
+    height: 400px;
+    margin: 10px;
+}
+.button {
+    margin: 10px 0px 10px 10px;
+    padding: 5px;
+    font-size: 16px;
+}
+.panel {
+    margin: 10px;
+    width: 600px;
+    display: none;
+}
+#error {
+    color: #d33;
+}
+.warp *{
+    margin: 0;
+    padding: 0;
+}
+.wrap textarea {
+    margin: -1px;
+    width: 600px;
+    height: 100%;
+}
+.wrap{
+    margin: 10px;
+    width: 604px;
+    height: 600px;
+    border: 1px solid;
+    position: relative;
+}
+label{
+    width: 120px;
+    height: 30px;
+    float: left;
+    text-align: center;
+    font-size: 14px;
+    line-height:30px;
+    border-right: 1px solid;
+    border-bottom: 1px solid;
+}
+label:nth-of-type(5){
+    border-right: none;
+}
+label span{
+    cursor: pointer;
+}
+label div{
+    width: 604px;
+    height: 568px;
+    position: absolute;
+    left: 0;
+    top: 31px;
+    display: none;
+}
+label input{
+    width: 0;
+}
+input:checked+div{
+    display: block;
+}
+label:not(:has(> input:checked)){
+    background-color: #eee;
+}
+</style>
+</head>
+<body>
+
+<form id="form">
+    <div><h1>Code Generator</h1></div>
+    <div><textarea id="code" name="code"></textarea></div>
+    <div>
+        <input id="compile_data_model" type="button" value="Compile Data Model" class="button">
+        <input id="generate_api" type="button" value="Generate API" class="button">
+    </div>
+    <div id="error" class="panel">Error</div>
+    <div id="data_model_result" class="wrap panel">
+        <label>
+            <span>SQL</span>
+            <input type="radio" name="tab_data_model" checked>
+            <div><textarea id="sql" name="sql"></textarea></div>
+        </label>
+        <label>
+            <span>Protocol Buffers</span>
+            <input type="radio" name="tab_data_model">
+            <div><textarea id="protobuf" name="protobuf"></textarea></div>
+        </label>
+        <label>
+            <span>GORM Model</span>
+            <input type="radio" name="tab_data_model">
+            <div><textarea id="gorm" name="gorm"></textarea></div>
+        </label>
+        <label>
+            <span>GORM CRUD</span>
+            <input type="radio" name="tab_data_model">
+            <div><textarea id="gocrud" name="gocrud"></textarea></div>
+        </label>
+        <label>
+            <span>Django Model</span>
+            <input type="radio" name="tab_data_model">
+            <div><textarea id="django" name="django"></textarea></div>
+        </label>
+    </div>
+    <div id="api_result" class="wrap panel">
+        <label>
+            <span>Protocol Buffers</span>
+            <input type="radio" name="tab_api" checked>
+            <div><textarea id="api_protobuf" name="api_protobuf"></textarea></div>
+        </label>
+        <label>
+            <span>Go RPC</span>
+            <input type="radio" name="tab_api">
+            <div><textarea id="api_gorpc" name="api_go_rpc"></textarea></div>
+        </label>
+    </div>
+</form>
+
+<script type="text/javascript">
+
+window.addEventListener("load", () => {
+
+    function showPanel(name) {
+        let elements = document.getElementsByClassName("panel");
+        for (let element of elements) {
+            element.style.display = "none";
+        }
+        document.getElementById(name).style.display = "block";
+    }
+
+    function showError(error) {
+        document.getElementById("error").textContent = "Error: " + error;
+        showPanel("error")
+    }
+
+    document.getElementById("compile_data_model").addEventListener("click", (event) => {
+        event.preventDefault();
+
+        let data = {code: document.getElementById("code").value};
+
+        fetch('/compile_data_model', {
+            method: 'POST',
+            body: JSON.stringify(data),
+            headers:{
+                'Content-Type': 'application/json'
+            }
+        }).then(res => res.json())
+            .then(response => {
+                if (response["error"] != null) {
+                    showError(response["error"]);
+                    return
+                }
+                document.getElementById("sql").value = response["sql"];
+                document.getElementById("protobuf").value = response["protobuf"];
+                document.getElementById("gorm").value = response["gorm"];
+                document.getElementById("gocrud").value = response["gocrud"];
+                document.getElementById("django").value = response["django"];
+                showPanel("data_model_result")
+            })
+            .catch(showError);
+    });
+
+    document.getElementById("generate_api").addEventListener("click", (event) => {
+        event.preventDefault();
+
+        let data = {code: document.getElementById("code").value};
+
+        fetch('/generate_api', {
+            method: 'POST',
+            body: JSON.stringify(data),
+            headers:{
+                'Content-Type': 'application/json'
+            }
+        }).then(res => res.json())
+            .then(response => {
+                if (response["error"] != null) {
+                    showError(response["error"]);
+                    return
+                }
+                document.getElementById("api_protobuf").value = response["protobuf"];
+                document.getElementById("api_gorpc").value = response["gorpc"];
+                showPanel("api_result")
+            })
+            .catch(showError);
+    });
+});
+
+</script>
+
+</body>
+</html>
